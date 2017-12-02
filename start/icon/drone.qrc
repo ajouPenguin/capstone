@@ -1,0 +1,36 @@
+<RCC>
+  <qresource prefix="drone">
+    <file>그림1.png</file>
+    <file>logo.png</file>
+    <file>drone.png</file>
+  </qresource>
+  <qresource prefix="background">
+    <file>frame.png</file>
+    <file>bgImg.png</file>
+    <file>warehouse-shelves.png</file>
+  </qresource>
+  <qresource prefix="drone_label">
+    <file>drone_pluselabel_clicked.png</file>
+    <file>drone_label_clicked.png</file>
+    <file>drone_pluselabel.png</file>
+    <file>drone_label.png</file>
+  </qresource>
+  <qresource prefix="button">
+    <file>start.png</file>
+    <file>start2.png</file>
+    <file>cancel2.png</file>
+    <file>cancel.png</file>
+    <file>learningImg.png</file>
+    <file>turnoff2.png</file>
+    <file>stop2.png</file>
+    <file>stop.png</file>
+    <file>learning2.png</file>
+    <file>learning.png</file>
+    <file>turnoff.png</file>
+    <file>run2.png</file>
+    <file>run.png</file>
+  </qresource>
+  <qresource prefix="dashboard">
+    <file>dashboard.png</file>
+  </qresource>
+</RCC>
