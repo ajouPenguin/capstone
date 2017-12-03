@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QBasicTimer
 from OpenGL.GL import *
 import cv2
 from math import *
@@ -36,24 +37,26 @@ class learningBox(QWidget, learningbox_class):
         super(learningBox, self).__init__(parent)
         self.setGeometry(430, 200, 421, 281)
         self.setupUi(self)
+        self.timer = QBasicTimer()
         self.i = 0
-
-    def setValue(self):
-        num = 10
-        self.learningBar.setProperty('value', num)
-
+    def timerEvent(self, e):
+        if self.i >= 100:
+            self.timer.stop()
+            return
+        self.i += 1
+        self.learningBar.setValue(self.i)
     def finish_learning(self):
         self.parent().btn_enable()
         self.close()
     def start(self):
-        self.btn_start.setEnabled(False)
-        num = 30
-        mpnum = mp.Value('i', num)
-        p = mp.Process(target=self.setValue)
-        p.start()
-
+        if self.timer.isActive():
+            self.timer.stop()
+        else:
+            self.timer.start(3000, self)
     def cancel(self):
         self.parent().btn_enable()
+        self.learningBar.setValue(0)
+        self.timer.stop()
         self.close()
 
 class MainWindow(QMainWindow, mainwindow_class):

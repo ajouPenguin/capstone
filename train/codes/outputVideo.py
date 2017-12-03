@@ -21,6 +21,8 @@ def outputVideo(db):
     height = int(vidcap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = vidcap.get(cv2.CAP_PROP_FPS)
 
+    print(length, width, height, fps)
+
     out = cv2.VideoWriter('../output/output.avi', cv2.VideoWriter_fourcc(*'MJPG'), fps, (height, width))
     imCnt = 0
     while (True):

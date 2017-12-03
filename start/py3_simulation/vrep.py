@@ -1,6 +1,6 @@
 # This file is part of the REMOTE API
 # 
-# Copyright 2006-2016 Coppelia Robotics GmbH. All rights reserved. 
+# Copyright 2006-2017 Coppelia Robotics GmbH. All rights reserved. 
 # marc@coppeliarobotics.com
 # www.coppeliarobotics.com
 # 
@@ -24,25 +24,29 @@
 # along with the REMOTE API.  If not, see <http://www.gnu.org/licenses/>.
 # -------------------------------------------------------------------
 #
-# This file was automatically created for V-REP release V3.3.2 on August 29th 2016
+# This file was automatically created for V-REP release V3.4.0 rev. 1 on April 5th 2017
 
 import platform
 import struct
 import sys
+import os
 import ctypes as ct
 from py3_simulation.vrepConst import *
 
 #load library
 libsimx = None
 try:
+    file_extension = '.so'
     if platform.system() =='cli':
-        libsimx = ct.CDLL("py3_simulation/remoteApi.dll")
+        file_extension = '.dll'
     elif platform.system() =='Windows':
-        libsimx = ct.CDLL("py3_simulation/remoteApi.dll")
+        file_extension = '.dll'
     elif platform.system() == 'Darwin':
-        libsimx = ct.CDLL("./remoteApi.dylib")
+        file_extension = '.dylib'
     else:
-        libsimx = ct.CDLL("./remoteApi.so")
+        file_extension = '.so'
+    libfullpath = os.path.join(os.path.dirname(__file__), 'remoteApi' + file_extension)
+    libsimx = ct.CDLL(libfullpath)
 except:
     print ('----------------------------------------------------')
     print ('The remoteApi library could not be loaded. Make sure')
@@ -50,8 +54,6 @@ except:
     print ('appropriately adjust the file "vrep.py"')
     print ('----------------------------------------------------')
     print ('')
-
-print (libsimx)
 
 #ctypes wrapper prototypes 
 c_GetJointPosition          = ct.CFUNCTYPE(ct.c_int32,ct.c_int32, ct.c_int32, ct.POINTER(ct.c_float), ct.c_int32)(("simxGetJointPosition", libsimx))
