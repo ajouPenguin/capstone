@@ -1,4 +1,7 @@
 class newSquare():
+    section = {}
+    found = []
+    direction = None
     def __init__(bl, br, tl, tr, idx, dir, cnt, labelNum):
         section['bl'] = bl # bottom-left
         section['br'] = br # bottom-right
@@ -10,8 +13,9 @@ class newSquare():
             found.append(cnt)
 
 class squareList():
-    def __init__():
-        sqrlist = []
+    sqrlist = []
+    def __init__(init):
+        pass
 
     def found(section, val):
         for sqr in sqrlist:
@@ -43,5 +47,5 @@ class squareList():
         sqrlist[idx].found[tagIdx] = num
 
     def addSquare(idx, bl, br, tl, tr, dir, cnt, labelNum):
-        sqrlist[idx] = newSquare(bl, br, tl, tr, dir, cnt, labelNum)
+        sqrlist[idx] = newSquare(bl, br, tl, tr, dir, cnt, labelN)
 
