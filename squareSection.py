@@ -1,4 +1,4 @@
-class newSquare():
+class squareInfo():
     section = {}
     found = []
     direction = None
@@ -47,5 +47,5 @@ class squareList():
         sqrlist[idx].found[tagIdx] = num
 
     def addSquare(idx, bl, br, tl, tr, dir, cnt, labelNum):
-        sqrlist[idx] = newSquare(bl, br, tl, tr, dir, cnt, labelN)
+        sqrlist[idx] = squareInfo(bl, br, tl, tr, dir, cnt, labelN)
 
