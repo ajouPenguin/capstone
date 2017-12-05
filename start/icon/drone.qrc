@@ -16,6 +16,10 @@
     <file>drone_label.png</file>
   </qresource>
   <qresource prefix="button">
+    <file>pause.png</file>
+    <file>pause2.png</file>
+    <file>1st.png</file>
+    <file>1st2.png</file>
     <file>start.png</file>
     <file>start2.png</file>
     <file>cancel2.png</file>

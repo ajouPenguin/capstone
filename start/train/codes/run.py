@@ -1,10 +1,10 @@
 import os
-import gtcfeat as gtc
+import train.codes.gtcfeat as gtc
 import numpy as np
 import math
-from brightChange import brightChange
-from loadDBFromPath import loadDBFromPath
-from outputVideo import outputVideo
+from train.codes.brightChange import brightChange
+from train.codes.loadDBFromPath import loadDBFromPath
+#from train.codes.outputVideo import outputVideo
 
 def train(dataPath):
 

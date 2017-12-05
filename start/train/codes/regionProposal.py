@@ -1,10 +1,8 @@
-import selectiveSearch as ss
-import gtcfeat as gtc
+import train.codes.gtcfeat as gtc
 import numpy as np
 import cv2
 import multiprocessing as mp
-from rectDetect import detectRect
-import time
+from train.codes.rectDetect import detectRect
 
 def scoreComp(feat, dt, idx, retDic):
     score = gtc.getDistance(feat, dt)
@@ -51,6 +49,5 @@ def processing(cv_img, db, opt='q'):
 
         score = min(minList)
         pred = minList.index(score)
-        cv2.imwrite('./train/codes/img/' + str(time.time()) + '.jpg', cv_img[y1:y2,x1:x2])
         ret.append((x1, x2, y1, y2, pred))
     return ret

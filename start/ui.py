@@ -12,10 +12,15 @@ import os
 from py3_simulation import control
 from py3_simulation.interface import RobotInterface
 from py3_simulation.vision.token_locator import QrFinder
+from train.codes.regionProposal import processing
+from train.codes.run import train
 UP = 119
 DOWN = 115
 LEFT = 97
 RIGHT = 100
+DONE = 27
+outputColor = [(0, 0 , 255), (0, 255, 0), (255, 0, 0), (255, 255, 0), (255, 0, 255), (0, 255, 255)]
+db = train('./train/data')
 mainwindow_class = uic.loadUiType("title.ui")[0]
 quitbox_class = uic.loadUiType("quitbox.ui")[0]
 learningbox_class = uic.loadUiType("learningbox.ui")[0]
@@ -39,25 +44,140 @@ class learningBox(QWidget, learningbox_class):
         self.setupUi(self)
         self.timer = QBasicTimer()
         self.i = 0
+
     def timerEvent(self, e):
         if self.i >= 100:
             self.timer.stop()
             return
+
         self.i += 1
         self.learningBar.setValue(self.i)
+
     def finish_learning(self):
         self.parent().btn_enable()
         self.close()
+
     def start(self):
         if self.timer.isActive():
             self.timer.stop()
         else:
-            self.timer.start(3000, self)
+            self.timer.start(100, self)
+
     def cancel(self):
-        self.parent().btn_enable()
         self.learningBar.setValue(0)
-        self.timer.stop()
+        self.parent().btn_enable()
         self.close()
+
+class DroneControl(QWidget):
+    def __init__(self, show):
+        super().__init__()
+
+        self.showFunc = show
+        self.outputVideo = cv2.VideoWriter('./train/output/output.avi', cv2.VideoWriter_fourcc(*'MJPG'), 30.0, (512, 512))
+        self.interface = None
+        self.qrfinder = None
+        self.qr_target = 0
+        self.direction = 0
+
+        self.v = 0
+
+        self.default_task = [UP, UP, RIGHT, RIGHT, DOWN, LEFT, LEFT, DOWN, RIGHT, RIGHT, LEFT, LEFT, DONE]
+        self.task = None
+
+        self.timer = QBasicTimer()
+
+    def timerEvent(self, e):
+        img = self.interface.get_image_from_camera()
+        value = self.qrfinder.find_code(img)
+        prevTag = []
+
+        for rect in prevTag:
+            pass
+
+        cimg = cv2.cvtColor(img.copy(), cv2.COLOR_GRAY2BGR)
+        rects = processing(cimg, db)
+        for (x1, x2, y1, y2, pred) in rects:
+            try:
+                ec = outputColor[int(pred)]
+            except:
+                print(pred)
+                ec = (255, 255, 255)
+            lw = 1
+            cv2.rectangle(cimg, (x1, y1), (x2, y2), ec, lw)
+
+        #self.outputVideo.write(img)
+        self.showFunc(cimg)
+
+        try:
+            x = value[0].data
+            section, current, top, right, bottom, left = list(map(int, x.split(b'|')))
+        except:
+            section, current, top, right, bottom, left = 0, 0, 0, 0, 0, 0
+            pass
+
+        if self.qr_target == 0:
+            print('[*] Illegal target')
+            self.timer.stop()
+
+        if self.qr_target == current:
+            self.direction = 0
+
+        if self.direction == 1:
+            self.interface.move(0, 0, self.v, 0)
+            return
+        elif self.direction == 2:
+            self.interface.move(0, -self.v, 0, 0)
+            return
+        elif self.direction == 3:
+            self.interface.move(0, 0, -self.v, 0)
+            return
+        elif self.direction == 4:
+            self.interface.move(0, self.v, 0, 0)
+            return
+
+        if self.direction == 0:
+            ch, self.task = self.task[0], self.task[1:]
+
+        print(section, current, top, right, left, bottom, ch)
+        if ch == UP:
+            self.qr_target = top
+            self.direction = 1
+        elif ch == RIGHT:
+            self.qr_target = right
+            self.direction = 2
+        elif ch == DOWN:
+            self.qr_target = bottom
+            self.direction = 3
+        elif ch == LEFT:
+            self.qr_target = left
+            self.direction = 4
+        elif ch == DONE:
+            self.stop()
+
+    def initDrone(self):
+        self.task = self.default_task[:]
+
+        self.interface = RobotInterface()
+        self.qrfinder = QrFinder()
+
+        self.qr_target = 1
+
+        self.v = 0.025
+
+        self.interface.set_target(0.5, 1.45, 0.2, 0)
+
+    def start(self):
+        self.initDrone()
+        self.timer.start(50, self)
+
+    def stop(self):
+        self.interface.stop()
+        self.timer.stop()
+
+    def isRunning(self):
+        return self.timer.isActive()
+
+
 
 class MainWindow(QMainWindow, mainwindow_class):
     def __init__(self):
@@ -72,100 +192,48 @@ class MainWindow(QMainWindow, mainwindow_class):
         self.getGOODS() #제품목록 불러오기
         self.showBettery()
         self.paintTempmap()     #임시 맵 튜
-        self.task =  [UP, UP, RIGHT, RIGHT, DOWN, LEFT, LEFT, DOWN, RIGHT, RIGHT, 27]
+        self.btn_stop.setEnabled(False)
 
-    #드론에서 받은 사진 파라매터로 메인화면에 출력
-    def start_drone(self):
-        self.btn_start.setEnabled(False)
-        interface = RobotInterface()
-        qrfinder = QrFinder()
-        interface.set_target(0.5, 1.45, 0.2, 0)  # default location
-
-        state = 1
-        target = 1
-        flag = 0
-        direction = 0
-        filename = "capture"
-        index = 0
-        task = self.task
-        cv2.namedWindow('masked_image', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('masked_image', 1, 1)
-        if not os.path.isdir('capture'):
-            os.mkdir('capture', int('777', 8))
-            flag = 1
-        while True:
-            time.sleep(0.05)
-
-            img = interface.get_image_from_camera()
-            if flag == 0:
-                if index % 5 == 0:
-                    cv2.imwrite('capture/%s%d.png' % (filename, index), img)
-                index += 1
-            #print(os.getcwd())
-            self.showVideo(img)
-
-            value = qrfinder.find_code(img)
-
-            try:
-                x = value[0].data
-                section, current, top, right, bottom, left = x.split(b'|')
-            except:
-                section, current, top, right, bottom, left = 0, 0, 0, 0, 0, 0
-                pass
-
-            if target == 0:
-                print('[*] Illegal target')
-                break
-
-            if target == current:
-                direction = 0
-
-            v = 0.030
-            if direction == 1:
-                interface.move(0, 0, v, 0)
-                continue
-            elif direction == 2:
-                interface.move(0, -v, 0, 0)
-                continue
-            elif direction == 3:
-                interface.move(0, 0, -v, 0)
-                continue
-            elif direction == 4:
-                interface.move(0, v, 0, 0)
-                continue
-
-            # ch = cv2.waitKey(5) & 0xFF
-            if direction == 0:
-                ch, task = task[0], task[1:]
-            print(section, current, top, right, left, bottom, ch)
-            if ch == UP:
-                target = top
-                direction = 1
-            elif ch == RIGHT:
-                target = right
-                direction = 2
-            elif ch == DOWN:
-                target = bottom
-                direction = 3
-            elif ch == LEFT:
-                target = left
-                direction = 4
-            elif ch == 27:
-                break
-
-        interface.stop()
-        cv2.destroyAllWindows()
-        self.btn_start.setEnabled(True)
-
-    def showVideo(self, cvImage):
-        qimg = QtGui.QImage(cvImage, cvImage.shape[1], cvImage.shape[0], cvImage.strides[0], QtGui.QImage.Format_Grayscale8)
-        self.video_frame.setPixmap(QtGui.QPixmap.fromImage(qimg))
+        self.dc = DroneControl(self.showVideo)
 
     def temp(self):
         self.setBatteryGuage(70)
         self.tableWidget.raise_()
         self.tempMap.raise_()
         self.drone_locate(1, 0)
+
+    def showVideo(self, cvImage):
+        qimg = QtGui.QImage(cvImage, cvImage.shape[1], cvImage.shape[0], cvImage.strides[0], QtGui.QImage.Format_RGB888)
+        self.video_frame.setPixmap(QtGui.QPixmap.fromImage(qimg))
+
+    def start_drone(self):
+        if self.dc.isRunning():
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap(":/button/run.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            icon.addPixmap(QtGui.QPixmap(":/button/run2.png"), QtGui.QIcon.Disabled, QtGui.QIcon.Off)
+            self.btn_start.setIcon(icon)
+            self.btn_start.setIconSize(QtCore.QSize(70, 70))
+
+            self.dc.stop()
+        else:
+            self.btn_stop.setEnabled(True)
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap(":/button/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            icon.addPixmap(QtGui.QPixmap(":/button/pause2.png"), QtGui.QIcon.Disabled, QtGui.QIcon.Off)
+            self.btn_start.setIcon(icon)
+            self.dc.start()
+
+    def stop_drone(self):
+        self.dc.stop()
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/button/run.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/button/run2.png"), QtGui.QIcon.Disabled, QtGui.QIcon.Off)
+        self.btn_start.setIcon(icon)
+        self.video_frame.setPixmap(QtGui.QPixmap(":/drone/그림1.png"))
+        self.btn_stop.setEnabled(False)
+
+    def test_drone(self):
+        print()
 
     #공장 맵 그리기
     def paintTempmap(self):
@@ -281,6 +349,7 @@ class MainWindow(QMainWindow, mainwindow_class):
         new_drone_label.setLayoutDirection(QtCore.Qt.LeftToRight)
         new_drone_label.setAutoFillBackground(False)
         new_drone_label.setText("")
+        new_drone_label.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/drone_label/drone_label_clicked.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         icon.addPixmap(QtGui.QPixmap(":/drone_label/drone_label.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -351,6 +420,7 @@ class MainWindow(QMainWindow, mainwindow_class):
         self.btn_setting.setEnabled(True)
         self.btn_learning.setEnabled(True)
         self.btn_drone_plus.setEnabled(True)
+        self.btn_1st.setEnabled(True)
     def btn_disalbe(self):
         self.btn_turnoff.setEnabled(False)
         self.btn_start.setEnabled(False)
@@ -358,7 +428,7 @@ class MainWindow(QMainWindow, mainwindow_class):
         self.btn_setting.setEnabled(False)
         self.btn_learning.setEnabled(False)
         self.btn_drone_plus.setEnabled(False)
-
+        self.btn_1st.setEnabled(False)
 
 if __name__ == "__main__":
     import sys
