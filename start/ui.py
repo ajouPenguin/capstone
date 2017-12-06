@@ -9,6 +9,7 @@ import time
 import multiprocessing as mp
 import threading
 import os
+import squareSection as ss
 from py3_simulation import control
 from py3_simulation.interface import RobotInterface
 from py3_simulation.vision.token_locator import QrFinder
@@ -78,6 +79,8 @@ class DroneControl(QWidget):
         self.qrfinder = None
         self.qr_target = 0
         self.direction = 0
+        self.sections = ss.squareList()
+        self.prevTag = []
 
         self.v = 0
 
@@ -89,7 +92,48 @@ class DroneControl(QWidget):
     def timerEvent(self, e):
         img = self.interface.get_image_from_camera()
         value = self.qrfinder.find_code(img)
-        prevTag = []
+
+        try:
+            x = value[0].data
+            section, current, top, right, bottom, left = list(map(int, x.split(b'|')))
+            if value is not prevTag or : # 이전 qr코드와 다른 코드일 때
+                prevTag = value
+                sqr, ret = self.sections.found(None, current)
+                if sqr and ret is None: # 현재 위치를 포함한 section이 없을 때 = 초기상태일 때
+                    self.sections.addSquare(current, right, top, 0, self.direction, 0, 4)
+                if (sqr and ret) is not None: # 현재 위치를 포함한 section이 이미 있을 때
+                    if sqr['tl'] == 0:
+                    if sqr['tr'] == 0:
+                    if sqr['bl'] == 0:
+                    if sqr['br'] == 0:
+                    self.sections.modifyAll(sqr)
+                elif ret != 'bl' or ret != 'br': # section이 없을 때
+                    br, bl, tr, tl, cnt = 0
+                    labelNum = 4
+                    di = self.direction
+
+                    if top is not 0:
+                        if right is not 0: # current가 bottom left가 될 조건
+                            sqr, ret = self.sections.found('bl', current)
+                            if sqr and ret is None:
+                                bl = current
+                                br = right
+                                tl = top
+                            else:
+                                pass
+                        else: # current가 bottom left가 될 수 없음, left가 대신 bottom left가 됨
+                            sqr, ret = self.sections.found('bl', left)
+                            if sqr and ret is None:
+                                bl = left
+                                br = current
+                                tr = top
+                            else:
+                                pass
+
+                    self.sections.addSquare(bl, br, tl, tr, di, cnt, labelNum)
+        except:
+            section, current, top, right, bottom, left = 0, 0, 0, 0, 0, 0
+            pass
 
         for rect in prevTag:
             pass
@@ -107,13 +151,6 @@ class DroneControl(QWidget):
 
         #self.outputVideo.write(img)
         self.showFunc(cimg)
-
-        try:
-            x = value[0].data
-            section, current, top, right, bottom, left = list(map(int, x.split(b'|')))
-        except:
-            section, current, top, right, bottom, left = 0, 0, 0, 0, 0, 0
-            pass
 
         if self.qr_target == 0:
             print('[*] Illegal target')
