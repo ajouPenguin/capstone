@@ -1,16 +1,16 @@
 class squareInfo():
-    found = []    
+    section = {}
+    found = []
     def __init__(self, bl, br, tl, tr, cnt):
-        section = {}
-        section['bl'] = bl # bottom-left
-        section['br'] = br # bottom-right
-        section['tl'] = tl # top-left
-        section['tr'] = tr # top-right
+        self.section['bl'] = bl # bottom-left
+        self.section['br'] = br # bottom-right
+        self.section['tl'] = tl # top-left
+        self.section['tr'] = tr # top-right
         self.found = cnt
     def sectionChange(self, section, val):
-        section['section'] = val
+        self.section['section'] = val
     def getSection(self):
-        return section
+        return self.section
 
 class squareList():
     sqrlist = []

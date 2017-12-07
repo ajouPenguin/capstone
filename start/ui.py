@@ -178,7 +178,6 @@ class DroneControl(QWidget):
 # section 설정을 통한 겹치는 barcode label 정리
         if current is not 0:
             sqr, ret = self.sections.found(None, current)
-            print(sqr, ret)
             if (sqr and ret) is None: # 현재 위치를 포함한 section이 없을 때 == 초기상태일 때
                 print('flag0')
                 if top == 0:
@@ -217,7 +216,6 @@ class DroneControl(QWidget):
                 for itr in range(len(sqr.found)):
                     if sqr.found[itr] < items[itr]:
                         sqr.found[itr] = items[itr]
-                print(sec)
                 self.sections.modifyAll(sqr)
             print('Square section lists') # log
             for itr in self.sections.sqrlist:
