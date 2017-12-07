@@ -193,36 +193,36 @@ class DroneControl(QWidget):
                         self.sections.addSquare(left, current, 0, top, items)
             elif (sqr and ret) is not None: # 현재 위치를 포함한 section이 이미 있을 때
                 print('flag1')
-                if sqr.section['tr'] == 0:
+                sec = sqr.getSection()
+                if sec['tr'] == 0:
                     if ret == 'tl':
-                        sqr.section['tr'] = right
+                        sec['tr'] = right
                     elif ret == 'br':
-                        sqr.section['tr'] = top
-                elif sqr.section['tl'] == 0:
+                        sec['tr'] = top
+                elif sec['tl'] == 0:
                     if ret == 'tr':
-                        sqr.section['tl'] = left
+                        sec['tl'] = left
                     elif ret == 'bl':
-                        sqr.section['tl'] = top
-                elif sqr.section['br'] == 0:
+                        sec['tl'] = top
+                elif sec['br'] == 0:
                     if ret == 'tr':
-                        sqr.section['br'] = bottom
+                        sec['br'] = bottom
                     elif ret == 'bl':
-                        sqr.section['br'] = right
-                elif sqr.section['bl'] == 0:
+                        sec['br'] = right
+                elif sec['bl'] == 0:
                     if ret == 'tl':
-                        sqr.section['bl'] = bottom
+                        sec['bl'] = bottom
                     elif ret == 'br':
-                        sqr.section['bl'] = left
+                        sec['bl'] = left
                 for itr in range(len(sqr.found)):
                     if sqr.found[itr] < items[itr]:
                         sqr.found[itr] = items[itr]
-                print(sqr.section['bl'],sqr.section['br'],sqr.section['tl'],sqr.section['tr'])
+                print(sec)
                 self.sections.modifyAll(sqr)
             print('Square section lists') # log
             for itr in self.sections.sqrlist:
-                print(itr.section['bl'], itr.section['br'], itr.section['tl'], itr.section['tr'])
-                for f in itr.found:
-                    print(f)
+                print(itr)
+                print(itr.getSection())
 #section 설정 코드 끝
 
     def initDrone(self):
