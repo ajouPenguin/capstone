@@ -2,57 +2,56 @@ class squareInfo():
     section = {}
     found = []
     direction = None
-    def __init__(bl, br, tl, tr, idx, di, cnt, labelNum):
-        section['bl'] = bl # bottom-left
-        section['br'] = br # bottom-right
-        section['tl'] = tl # top-left
-        section['tr'] = tr # top-right
-        found = []
-        direction = di
-        for i in range(labelNum):
-            found.append(cnt)
+    def __init__(self, bl, br, tl, tr, cnt):
+        self.section['bl'] = bl # bottom-left
+        self.section['br'] = br # bottom-right
+        self.section['tl'] = tl # top-left
+        self.section['tr'] = tr # top-right
+        self.found = cnt
 
 class squareList():
     sqrlist = []
     def __init__(init):
         pass
 
-    def found(section, val):
+    def found(self, section, val):
         if section == None:
             section = ['br','bl','tr','tl']
-            for sec in sections:
-                for sqr in sqrlist:
-                    if sqr.section[section] == val:
-                        return sqr, section
+            for sec in section:
+                for sqr in self.sqrlist:
+                    if sqr.section[sec] == val:
+                        return sqr, sec
         else:
-            for sqr in sqrlist:
+            for sqr in self.sqrlist:
                 if sqr.section[section] == val:
                     return sqr, section
         return None, None
 
-    def modifyAll(inSqr):
-        for sqr in sqrlist:
-            if sqr.index == inSqr.index:
-                sqr = inSqr
+    def modifyAll(self, inSqr):
+        section = ['br', 'bl', 'tr', 'tl']
+        for sqr in self.sqrlist:
+            for sec in section:
+                if sqr.section[sec] == inSqr.section[sec]:
+                    sqr = inSqr
+                    return
 
-    def modifyBottomLeft(idx, bl):
-        sqrlist[idx].section['bl'] = bl
+    def modifyBottomLeft(self, idx, bl):
+        self.sqrlist[idx].section['bl'] = bl
 
-    def modifyBottomRight(idx, br):
-        sqrlist[idx].section['br'] = br
+    def modifyBottomRight(self, idx, br):
+        self.sqrlist[idx].section['br'] = br
 
-    def modifyTopLeft(idx, tl):
-        sqrlist[idx].section['tl'] = tl
+    def modifyTopLeft(self, idx, tl):
+        self.sqrlist[idx].section['tl'] = tl
 
-    def modifyTopRight(idx, tr):
-        sqrlist[idx].section['tr'] = tr
+    def modifyTopRight(self, idx, tr):
+        self.sqrlist[idx].section['tr'] = tr
 
-    def modifyDirection(idx, di):
-        sqrlist[idx].direction = di
+    def modifyDirection(self, idx, di):
+        self.sqrlist[idx].direction = di
 
-    def modifyTagCount(idx, tagIdx, num):
-        sqrlist[idx].found[tagIdx] = num
+    def modifyTagCount(self, idx, tagIdx, num):
+        self.sqrlist[idx].found[tagIdx] = num
 
-    def addSquare(bl, br, tl, tr, di, cnt, labelNum):
-        sqrlist.append(squareInfo(bl, br, tl, tr, di, cnt, labelNum))
-
+    def addSquare(self, bl, br, tl, tr, cnt):
+        self.sqrlist.append(squareInfo(bl, br, tl, tr, cnt))

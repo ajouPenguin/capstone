@@ -28,7 +28,6 @@ def train(dataPath):
         print('No files in path')
         print(e)
         return None
-    print(labels)
     return db
 
 if __name__ == '__main__':

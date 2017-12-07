@@ -17,6 +17,14 @@ def processing(cv_img, db, opt='q'):
     rect = detectRect(cv_img)
     ret = []
     for x1, y1, x2, y2 in rect:
+        chk = 0
+        for r in ret:
+            (xx1, xx2, yy1, yy2, pp) = r
+            if abs(xx1-x1) < 30 and abs(xx2 - x2) < 30 and abs(yy1 - y1) < 30 and abs(yy2 - y2) < 30:
+                chk = 1
+                break
+        if chk == 1:
+            continue
         score = []
         for _ in db:
             score.append(10000000000)

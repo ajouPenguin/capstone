@@ -26,6 +26,7 @@ mainwindow_class = uic.loadUiType("title.ui")[0]
 quitbox_class = uic.loadUiType("quitbox.ui")[0]
 learningbox_class = uic.loadUiType("learningbox.ui")[0]
 drone_label_count = 2   #드론라벨카운트 2부터 +1씩
+threshold = 60
 
 class quitBox(QWidget, quitbox_class):
     def __init__(self, parent):
@@ -80,7 +81,7 @@ class DroneControl(QWidget):
         self.qr_target = 0
         self.direction = 0
         self.sections = ss.squareList()
-        self.prevTag = []
+        self.prevRects = []
 
         self.v = 0
 
@@ -96,51 +97,28 @@ class DroneControl(QWidget):
         try:
             x = value[0].data
             section, current, top, right, bottom, left = list(map(int, x.split(b'|')))
-            if value is not prevTag or : # 이전 qr코드와 다른 코드일 때
-                prevTag = value
-                sqr, ret = self.sections.found(None, current)
-                if sqr and ret is None: # 현재 위치를 포함한 section이 없을 때 = 초기상태일 때
-                    self.sections.addSquare(current, right, top, 0, self.direction, 0, 4)
-                if (sqr and ret) is not None: # 현재 위치를 포함한 section이 이미 있을 때
-                    if sqr['tl'] == 0:
-                    if sqr['tr'] == 0:
-                    if sqr['bl'] == 0:
-                    if sqr['br'] == 0:
-                    self.sections.modifyAll(sqr)
-                elif ret != 'bl' or ret != 'br': # section이 없을 때
-                    br, bl, tr, tl, cnt = 0
-                    labelNum = 4
-                    di = self.direction
-
-                    if top is not 0:
-                        if right is not 0: # current가 bottom left가 될 조건
-                            sqr, ret = self.sections.found('bl', current)
-                            if sqr and ret is None:
-                                bl = current
-                                br = right
-                                tl = top
-                            else:
-                                pass
-                        else: # current가 bottom left가 될 수 없음, left가 대신 bottom left가 됨
-                            sqr, ret = self.sections.found('bl', left)
-                            if sqr and ret is None:
-                                bl = left
-                                br = current
-                                tr = top
-                            else:
-                                pass
-
-                    self.sections.addSquare(bl, br, tl, tr, di, cnt, labelNum)
         except:
             section, current, top, right, bottom, left = 0, 0, 0, 0, 0, 0
             pass
 
-        for rect in prevTag:
-            pass
-
         cimg = cv2.cvtColor(img.copy(), cv2.COLOR_GRAY2BGR)
         rects = processing(cimg, db)
+        items = [0, 0, 0, 0]
+        check = 0
         for (x1, x2, y1, y2, pred) in rects:
+        # 이전 프레임에서 찾아서 더했던 barcode label 걸러내기
+            newRects = []
+            if self.prevRects is list:
+                for i in len(self.prevRects):
+                    (xx1, xx2, yy1, yy2, cnt) = self.prevRects[i]
+                    if cnt > 60:
+                        self.prevRects.remove(self.prevRects[i])
+                        continue
+                    if abs(xx1 - x1) < threshold and abs(xx2 - x2) < threshold and abs(yy1 - y1) < threshold and abs(yy2 - y2) < threshold:
+                        xx1 = x1, xx2 = x2, yy1 = y1, yy2 = y2
+                        check = 1
+                    self.prevRects[i] = (xx1, xx2, yy1, yy2, cnt + 1)
+
             try:
                 ec = outputColor[int(pred)]
             except:
@@ -148,6 +126,12 @@ class DroneControl(QWidget):
                 ec = (255, 255, 255)
             lw = 1
             cv2.rectangle(cimg, (x1, y1), (x2, y2), ec, lw)
+
+            if check == 1:
+                check = 0
+                continue
+            items[pred] += 1
+            self.prevRects.append((x1, x2, y1, y2, 1))
 
         #self.outputVideo.write(img)
         self.showFunc(cimg)
@@ -190,6 +174,56 @@ class DroneControl(QWidget):
             self.direction = 4
         elif ch == DONE:
             self.stop()
+
+# section 설정을 통한 겹치는 barcode label 정리
+        if current is not 0:
+            sqr, ret = self.sections.found(None, current)
+            print(sqr, ret)
+            if (sqr and ret) is None: # 현재 위치를 포함한 section이 없을 때 == 초기상태일 때
+                print('flag0')
+                if top == 0:
+                    if left == 0:
+                        self.sections.addSquare(bottom, 0, current, right, items)
+                    elif right == 0:
+                        self.sections.addSquare(0, bottom, left, current, items)
+                if bottom == 0:
+                    if left == 0:
+                        self.sections.addSquare(current, right, top, 0, items)
+                    elif right == 0:
+                        self.sections.addSquare(left, current, 0, top, items)
+            elif (sqr and ret) is not None: # 현재 위치를 포함한 section이 이미 있을 때
+                print('flag1')
+                if sqr.section['tr'] == 0:
+                    if ret == 'tl':
+                        sqr.section['tr'] = right
+                    elif ret == 'br':
+                        sqr.section['tr'] = top
+                elif sqr.section['tl'] == 0:
+                    if ret == 'tr':
+                        sqr.section['tl'] = left
+                    elif ret == 'bl':
+                        sqr.section['tl'] = top
+                elif sqr.section['br'] == 0:
+                    if ret == 'tr':
+                        sqr.section['br'] = bottom
+                    elif ret == 'bl':
+                        sqr.section['br'] = right
+                elif sqr.section['bl'] == 0:
+                    if ret == 'tl':
+                        sqr.section['bl'] = bottom
+                    elif ret == 'br':
+                        sqr.section['bl'] = left
+                for itr in range(len(sqr.found)):
+                    if sqr.found[itr] < items[itr]:
+                        sqr.found[itr] = items[itr]
+                print(sqr.section['bl'],sqr.section['br'],sqr.section['tl'],sqr.section['tr'])
+                self.sections.modifyAll(sqr)
+            print('Square section lists') # log
+            for itr in self.sections.sqrlist:
+                print(itr.section['bl'], itr.section['br'], itr.section['tl'], itr.section['tr'])
+                for f in itr.found:
+                    print(f)
+#section 설정 코드 끝
 
     def initDrone(self):
         self.task = self.default_task[:]
