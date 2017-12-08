@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class sectionInfo():
     def __init__(self, first, second, cnt):
         self.point['first'] = first # bottom-left
@@ -9,6 +10,21 @@ class sectionInfo():
         return self.section
     def setFound(self, num):
         self.found = num
+=======
+class squareInfo():
+    section = {}
+    found = []
+    def __init__(self, bl, br, tl, tr, cnt):
+        self.section['bl'] = bl # bottom-left
+        self.section['br'] = br # bottom-right
+        self.section['tl'] = tl # top-left
+        self.section['tr'] = tr # top-right
+        self.found = cnt
+    def sectionChange(self, section, val):
+        self.section['section'] = val
+    def getSection(self):
+        return self.section
+>>>>>>> f4996fb9b9842864eac66e96a938ca2d98acc5c6
 
 class sectionList():
     def __init__(self):
