@@ -80,8 +80,9 @@ class DroneControl(QWidget):
         self.qrfinder = None
         self.qr_target = 0
         self.direction = 0
-        self.sections = ss.squareList()
+        self.sections = ss.sectionList()
         self.prevRects = []
+        self.detected = [0, 0, 0, 0]
 
         self.v = 0
 
@@ -101,37 +102,40 @@ class DroneControl(QWidget):
             section, current, top, right, bottom, left = 0, 0, 0, 0, 0, 0
             pass
 
-        cimg = cv2.cvtColor(img.copy(), cv2.COLOR_GRAY2BGR)
-        rects = processing(cimg, db)
-        items = [0, 0, 0, 0]
-        check = 0
-        for (x1, x2, y1, y2, pred) in rects:
-        # 이전 프레임에서 찾아서 더했던 barcode label 걸러내기
-            newRects = []
-            if self.prevRects is list:
-                for i in len(self.prevRects):
-                    (xx1, xx2, yy1, yy2, cnt) = self.prevRects[i]
-                    if cnt > 60:
-                        self.prevRects.remove(self.prevRects[i])
-                        continue
-                    if abs(xx1 - x1) < threshold and abs(xx2 - x2) < threshold and abs(yy1 - y1) < threshold and abs(yy2 - y2) < threshold:
-                        xx1 = x1, xx2 = x2, yy1 = y1, yy2 = y2
-                        check = 1
-                    self.prevRects[i] = (xx1, xx2, yy1, yy2, cnt + 1)
+        if self.direction == 2 or self.direction == 4:
+            cimg = cv2.cvtColor(img.copy(), cv2.COLOR_GRAY2BGR)
+            rects = processing(cimg, db)
+            items = [0, 0, 0, 0]
+            check = 0
+            for (x1, x2, y1, y2, pred) in rects:
+            # 이전 프레임에서 찾아서 더했던 barcode label 걸러내기
+                if self.prevRects is list:
+                    for i in len(self.prevRects):
+                        (xx1, xx2, yy1, yy2, cnt) = self.prevRects[i]
+                        if cnt > 60:
+                            self.prevRects.remove(self.prevRects[i])
+                            continue
+                        if (abs(xx1 - x1) and abs(xx2 - x2) and abs(yy1 - y1) and abs(yy2 - y2)) < threshold:
+                            xx1 = x1
+                            xx2 = x2
+                            yy1 = y1
+                            yy2 = y2
+                            check = 1
+                        self.prevRects[i] = (xx1, xx2, yy1, yy2, cnt + 1)
 
-            try:
-                ec = outputColor[int(pred)]
-            except:
-                print(pred)
-                ec = (255, 255, 255)
-            lw = 1
-            cv2.rectangle(cimg, (x1, y1), (x2, y2), ec, lw)
+                try:
+                    ec = outputColor[int(pred)]
+                except:
+                    print(pred)
+                    ec = (255, 255, 255)
+                lw = 1
+                cv2.rectangle(cimg, (x1, y1), (x2, y2), ec, lw)
 
-            if check == 1:
-                check = 0
-                continue
-            items[pred] += 1
-            self.prevRects.append((x1, x2, y1, y2, 1))
+                if check == 1:
+                    check = 0
+                    continue
+                self.detected[pred] += 1
+                self.prevRects.append((x1, x2, y1, y2, 1))
 
         #self.outputVideo.write(img)
         self.showFunc(cimg)
@@ -159,7 +163,6 @@ class DroneControl(QWidget):
         if self.direction == 0:
             ch, self.task = self.task[0], self.task[1:]
 
-        print(section, current, top, right, left, bottom, ch)
         if ch == UP:
             self.qr_target = top
             self.direction = 1
@@ -177,52 +180,16 @@ class DroneControl(QWidget):
 
 # section 설정을 통한 겹치는 barcode label 정리
         if current is not 0:
-            sqr, ret = self.sections.found(None, current)
-            print(sqr, ret)
-            if (sqr and ret) is None: # 현재 위치를 포함한 section이 없을 때 == 초기상태일 때
+            sec, ret = self.sections.find(None, current)
+            if (sec and ret) is None: # 현재 위치를 포함한 section이 없을 때 == 초기상태일 때
                 print('flag0')
-                if top == 0:
-                    if left == 0:
-                        self.sections.addSquare(bottom, 0, current, right, items)
-                    elif right == 0:
-                        self.sections.addSquare(0, bottom, left, current, items)
-                if bottom == 0:
-                    if left == 0:
-                        self.sections.addSquare(current, right, top, 0, items)
-                    elif right == 0:
-                        self.sections.addSquare(left, current, 0, top, items)
-            elif (sqr and ret) is not None: # 현재 위치를 포함한 section이 이미 있을 때
+                self.sections.addSection(current, left, 0)
+            elif (sec and ret) is not None: # 현재 위치를 포함한 section이 이미 있을 때
                 print('flag1')
-                sec = sqr.getSection()
-                if sec['tr'] == 0:
-                    if ret == 'tl':
-                        sec['tr'] = right
-                    elif ret == 'br':
-                        sec['tr'] = top
-                elif sec['tl'] == 0:
-                    if ret == 'tr':
-                        sec['tl'] = left
-                    elif ret == 'bl':
-                        sec['tl'] = top
-                elif sec['br'] == 0:
-                    if ret == 'tr':
-                        sec['br'] = bottom
-                    elif ret == 'bl':
-                        sec['br'] = right
-                elif sec['bl'] == 0:
-                    if ret == 'tl':
-                        sec['bl'] = bottom
-                    elif ret == 'br':
-                        sec['bl'] = left
-                for itr in range(len(sqr.found)):
-                    if sqr.found[itr] < items[itr]:
-                        sqr.found[itr] = items[itr]
-                print(sec)
-                self.sections.modifyAll(sqr)
-            print('Square section lists') # log
-            for itr in self.sections.sqrlist:
-                print(itr)
-                print(itr.getSection())
+                sec.setFound(self.detected)
+                self.detected = [0, 0, 0, 0]
+                self.sections.modifyAll(sec)
+
 #section 설정 코드 끝
 
     def initDrone(self):
