@@ -180,53 +180,16 @@ class DroneControl(QWidget):
 
 # section 설정을 통한 겹치는 barcode label 정리
         if current is not 0:
-<<<<<<< HEAD
             sec, ret = self.sections.find(None, current)
             if (sec and ret) is None: # 현재 위치를 포함한 section이 없을 때 == 초기상태일 때
-=======
-            sqr, ret = self.sections.found(None, current)
-            if (sqr and ret) is None: # 현재 위치를 포함한 section이 없을 때 == 초기상태일 때
->>>>>>> f4996fb9b9842864eac66e96a938ca2d98acc5c6
                 print('flag0')
                 self.sections.addSection(current, left, 0)
             elif (sec and ret) is not None: # 현재 위치를 포함한 section이 이미 있을 때
                 print('flag1')
-<<<<<<< HEAD
                 sec.setFound(self.detected)
                 self.detected = [0, 0, 0, 0]
                 self.sections.modifyAll(sec)
 
-=======
-                sec = sqr.getSection()
-                if sec['tr'] == 0:
-                    if ret == 'tl':
-                        sec['tr'] = right
-                    elif ret == 'br':
-                        sec['tr'] = top
-                elif sec['tl'] == 0:
-                    if ret == 'tr':
-                        sec['tl'] = left
-                    elif ret == 'bl':
-                        sec['tl'] = top
-                elif sec['br'] == 0:
-                    if ret == 'tr':
-                        sec['br'] = bottom
-                    elif ret == 'bl':
-                        sec['br'] = right
-                elif sec['bl'] == 0:
-                    if ret == 'tl':
-                        sec['bl'] = bottom
-                    elif ret == 'br':
-                        sec['bl'] = left
-                for itr in range(len(sqr.found)):
-                    if sqr.found[itr] < items[itr]:
-                        sqr.found[itr] = items[itr]
-                self.sections.modifyAll(sqr)
-            print('Square section lists') # log
-            for itr in self.sections.sqrlist:
-                print(itr)
-                print(itr.getSection())
->>>>>>> f4996fb9b9842864eac66e96a938ca2d98acc5c6
 #section 설정 코드 끝
 
     def initDrone(self):
