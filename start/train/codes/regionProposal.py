@@ -23,6 +23,12 @@ def processing(cv_img, db, opt='q'):
             if abs(xx1-x1) < 30 and abs(xx2 - x2) < 30 and abs(yy1 - y1) < 30 and abs(yy2 - y2) < 30:
                 chk = 1
                 break
+            if x1 > xx1 and y1 > yy1 and x2 < xx2 and y2 < yy2:
+                chk = 1
+                break
+            if x1 < xx2 and y1 < yy1 and x2 > xx2 and y2 > yy2:
+                chk = 1
+                break
         if chk == 1:
             continue
         score = []

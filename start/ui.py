@@ -26,7 +26,7 @@ mainwindow_class = uic.loadUiType("title.ui")[0]
 quitbox_class = uic.loadUiType("quitbox.ui")[0]
 learningbox_class = uic.loadUiType("learningbox.ui")[0]
 drone_label_count = 2   #드론라벨카운트 2부터 +1씩
-threshold = 60
+threshold = 100
 
 class quitBox(QWidget, quitbox_class):
     def __init__(self, parent):
@@ -82,6 +82,7 @@ class DroneControl(QWidget):
         self.direction = 0
         self.sections = ss.sectionList()
         self.prevRects = []
+        self.prevDirection = 0
         self.detected = [0, 0, 0, 0]
 
         self.v = 0
@@ -102,42 +103,38 @@ class DroneControl(QWidget):
             section, current, top, right, bottom, left = 0, 0, 0, 0, 0, 0
             pass
 
-        if self.direction == 2 or self.direction == 4:
-            cimg = cv2.cvtColor(img.copy(), cv2.COLOR_GRAY2BGR)
+        cimg = cv2.cvtColor(img.copy(), cv2.COLOR_GRAY2BGR)
+        if (self.direction == 2 or self.direction == 4) and (current == 0):
             rects = processing(cimg, db)
-            items = [0, 0, 0, 0]
-            check = 0
             for (x1, x2, y1, y2, pred) in rects:
+                check = 0
             # 이전 프레임에서 찾아서 더했던 barcode label 걸러내기
-                if self.prevRects is list:
-                    for i in len(self.prevRects):
+                if len(self.prevRects) > 0:
+                    for i in range(len(self.prevRects)):
                         (xx1, xx2, yy1, yy2, cnt) = self.prevRects[i]
-                        if cnt > 60:
-                            self.prevRects.remove(self.prevRects[i])
-                            continue
-                        if (abs(xx1 - x1) and abs(xx2 - x2) and abs(yy1 - y1) and abs(yy2 - y2)) < threshold:
-                            xx1 = x1
-                            xx2 = x2
-                            yy1 = y1
-                            yy2 = y2
+                        if abs(x1 - xx1) < threshold and abs(x2 - xx2) < threshold and abs(y1 - yy1) < threshold and abs(y2 - yy2) < threshold:
+                            self.prevRects[i] = (x1, x2, y1, y2, -1)
                             check = 1
-                        self.prevRects[i] = (xx1, xx2, yy1, yy2, cnt + 1)
-
+                            break
+                    if check == 0:
+                        self.detected[pred] += 1
+                        self.prevRects.append((x1, x2, y1, y2, -1))
+                else:
+                    self.detected[pred] += 1
+                    self.prevRects.append((x1, x2, y1, y2, -1))
                 try:
                     ec = outputColor[int(pred)]
                 except:
-                    print(pred)
                     ec = (255, 255, 255)
                 lw = 1
                 cv2.rectangle(cimg, (x1, y1), (x2, y2), ec, lw)
 
-                if check == 1:
-                    check = 0
-                    continue
-                self.detected[pred] += 1
-                self.prevRects.append((x1, x2, y1, y2, 1))
+        try:
+            self.prevRects = [(x1, x2, y1, y2, cnt+1) for (x1, x2, y1, y2, cnt) in self.prevRects]
+            self.prevRects = [r for r in self.prevRects if r[4] < 6]
+        except:
+            pass
 
-        #self.outputVideo.write(img)
         self.showFunc(cimg)
 
         if self.qr_target == 0:
@@ -145,6 +142,7 @@ class DroneControl(QWidget):
             self.timer.stop()
 
         if self.qr_target == current:
+            self.prevDirection = self.direction
             self.direction = 0
 
         if self.direction == 1:
@@ -176,20 +174,58 @@ class DroneControl(QWidget):
             self.qr_target = left
             self.direction = 4
         elif ch == DONE:
+            for i in self.sections.li:
+                print(i.getPoints())
+                print(i.getFound())
             self.stop()
 
 # section 설정을 통한 겹치는 barcode label 정리
         if current is not 0:
-            sec, ret = self.sections.find(None, current)
-            if (sec and ret) is None: # 현재 위치를 포함한 section이 없을 때 == 초기상태일 때
-                print('flag0')
-                self.sections.addSection(current, left, 0)
-            elif (sec and ret) is not None: # 현재 위치를 포함한 section이 이미 있을 때
-                print('flag1')
-                sec.setFound(self.detected)
-                self.detected = [0, 0, 0, 0]
-                self.sections.modifyAll(sec)
+            if self.direction == 2:
+                sec, ret = self.sections.find('first', current)
+                if (sec and ret) is None:
+                    if right != 0:
+                        self.sections.addSection(current, right, [0,0,0,0])
+                sec, ret = self.sections.find('second', current)
+                if (sec and ret) is not None:
+                    f = sec.getFound()
+                    for i in range(len(f)):
+                        if f[i] < self.detected[i]:
+                            f[i] = self.detected[i]
+                    self.sections.modifyAll(sec)
 
+            elif self.direction == 4:
+                sec, ret = self.sections.find('second', current)
+                if (sec and ret) is None:
+                    if left != 0:
+                        self.sections.addSection(left, current, [0,0,0,0])
+                sec,ret = self.sections.find('first', current)
+                if (sec and ret) is not None:
+                    f = sec.getFound()
+                    for i in range(len(f)):
+                        if f[i] < self.detected[i]:
+                            f[i] = self.detected[i]
+                    self.sections.modifyAll(sec)
+
+            else:
+                if self.prevDirection == 2:
+                    sec, ret = self.sections.find('second', current)
+                    if (sec and ret) is not None:
+                        f = sec.getFound()
+                        for i in range(len(f)):
+                            if f[i] < self.detected[i]:
+                                f[i] = self.detected[i]
+                        self.sections.modifyAll(sec)
+                elif self.prevDirection == 4:
+                    sec,ret = self.sections.find('first', current)
+                    if (sec and ret) is not None:
+                        f = sec.getFound()
+                        for i in range(len(f)):
+                            if f[i] < self.detected[i]:
+                                f[i] = self.detected[i]
+                        self.sections.modifyAll(sec)
+
+            self.detected = [0, 0, 0, 0]
 #section 설정 코드 끝
 
     def initDrone(self):

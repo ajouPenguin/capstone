@@ -1,15 +1,19 @@
 
 class sectionInfo():
+    point = {}
     def __init__(self, first, second, cnt):
+        self.point = {}
         self.point['first'] = first # bottom-left
         self.point['second'] = second # bottom-right
         self.found = cnt
     def pointChange(self, point, val):
         self.point[point] = val
-    def getSection(self):
-        return self.section
+    def getPoints(self):
+        return self.point
     def setFound(self, num):
         self.found = num
+    def getFound(self):
+        return self.found
 
 class sectionList():
     def __init__(self):
@@ -19,8 +23,8 @@ class sectionList():
         if point == None:
             point = ['first', 'second']
         for l in self.li:
-            sec = l.getSection()
-            if point is list:
+            sec = l.getPoints()
+            if type(point) is list:
                 for p in point:
                     if sec[p] == num:
                         return l, p
@@ -30,13 +34,13 @@ class sectionList():
         return None, None
 
     def modifyAll(self, inSec):
-        section = ['first', 'second']
-        retInSec = inSec.getSection()
+        retInSec = inSec.getPoints()
         for sec in self.li:
-            retSec = sqr.getSection()
-            if retSec[sec] == retInSec[sec]:
-                sec = inSec
-                return
+            retSec = sec.getPoints()
+            for itr in retSec:
+                if retSec[itr] == retInSec[itr]:
+                    sec = inSec
+                    return
 
     def addSection(self, first, second, cnt):
         self.li.append(sectionInfo(first, second, cnt))

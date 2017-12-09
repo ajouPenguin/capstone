@@ -101,7 +101,8 @@ class QrFinder():
             try:
                 result = self.try_to_decode(candidate, gray, vis)
             except Exception as e:
-                print(e)
+                #print(e)
+                pass
             if result != []:
                 break
 
