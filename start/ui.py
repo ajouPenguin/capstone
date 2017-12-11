@@ -15,18 +15,21 @@ from py3_simulation.interface import RobotInterface
 from py3_simulation.vision.token_locator import QrFinder
 from train.codes.regionProposal import processing
 from train.codes.run import train
+import numpy as np
+
 UP = 119
 DOWN = 115
 LEFT = 97
 RIGHT = 100
 DONE = 27
 outputColor = [(0, 0 , 255), (0, 255, 0), (255, 0, 0), (255, 255, 0), (255, 0, 255), (0, 255, 255)]
-db = train('./train/data')
+clf = train('./train/data')
+
 mainwindow_class = uic.loadUiType("title.ui")[0]
 quitbox_class = uic.loadUiType("quitbox.ui")[0]
 learningbox_class = uic.loadUiType("learningbox.ui")[0]
 drone_label_count = 2   #드론라벨카운트 2부터 +1씩
-threshold = 100
+threshold = 80
 
 class quitBox(QWidget, quitbox_class):
     def __init__(self, parent):
@@ -105,7 +108,7 @@ class DroneControl(QWidget):
 
         cimg = cv2.cvtColor(img.copy(), cv2.COLOR_GRAY2BGR)
         if (self.direction == 2 or self.direction == 4) and (current == 0):
-            rects = processing(cimg, db)
+            rects = processing(cimg, clf)
             for (x1, x2, y1, y2, pred) in rects:
                 check = 0
             # 이전 프레임에서 찾아서 더했던 barcode label 걸러내기
@@ -128,10 +131,11 @@ class DroneControl(QWidget):
                     ec = (255, 255, 255)
                 lw = 1
                 cv2.rectangle(cimg, (x1, y1), (x2, y2), ec, lw)
+                print(pred)
 
         try:
             self.prevRects = [(x1, x2, y1, y2, cnt+1) for (x1, x2, y1, y2, cnt) in self.prevRects]
-            self.prevRects = [r for r in self.prevRects if r[4] < 6]
+            self.prevRects = [r for r in self.prevRects if r[4] < 60]
         except:
             pass
 
@@ -146,13 +150,13 @@ class DroneControl(QWidget):
             self.direction = 0
 
         if self.direction == 1:
-            self.interface.move(0, 0, self.v, 0)
+            self.interface.move(0, 0, 0.025, 0)
             return
         elif self.direction == 2:
             self.interface.move(0, -self.v, 0, 0)
             return
         elif self.direction == 3:
-            self.interface.move(0, 0, -self.v, 0)
+            self.interface.move(0, 0, -0.025, 0)
             return
         elif self.direction == 4:
             self.interface.move(0, self.v, 0, 0)
@@ -236,7 +240,7 @@ class DroneControl(QWidget):
 
         self.qr_target = 1
 
-        self.v = 0.025
+        self.v = 0.01
 
         self.interface.set_target(0.5, 1.45, 0.2, 0)
 

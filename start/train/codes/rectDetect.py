@@ -104,7 +104,7 @@ def detectRect(im):
         c = c.astype('float')
         c = c.astype('int')
         x, y, w, h = cv2.boundingRect(c)
-        if 60 < w < 90 and 60 < h < 90:
+        if 100 < w < 200 and 40 < h < 145:
             rect.append([x,y,x+w,y+h])
 
     ret = rect#NMS(rect, 50)

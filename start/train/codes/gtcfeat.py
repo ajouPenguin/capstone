@@ -1,9 +1,9 @@
 import cv2
 from skimage.feature import hog
-import numpy as np 
+import numpy as np
 import os
 
-def getFeat(img, algorithm = 'histogram', masksize = (32, 32)):
+def getFeat(img, algorithm = 'histogram', masksize = (128, 128)):
     maskRows = masksize[0]
     maskCols = masksize[1]
 
@@ -22,7 +22,7 @@ def getFeat(img, algorithm = 'histogram', masksize = (32, 32)):
         for c in range(maskCols):
             col_feat[c] /= float(maskRows*255)
 
-        return row_feat + col_feat 
+        return row_feat + col_feat
 
     elif algorithm == 'lbp':
         lbp_feat = [0] * 256
@@ -31,7 +31,7 @@ def getFeat(img, algorithm = 'histogram', masksize = (32, 32)):
                 lbp_value = 0
                 for dr in range(-1, 2):
                     for dc in range(-1, 2):
-                        if dr == 0 and dc == 0: 
+                        if dr == 0 and dc == 0:
                             continue
                         #lbp_value *= 2
                         if img[r+dr][c+dc] > img[r][c] :
@@ -62,7 +62,7 @@ def getFeat(img, algorithm = 'histogram', masksize = (32, 32)):
         return lbp_feat
 
     elif algorithm == 'hog':
-        fd, hog_img = hog(img, orientations=8, pixels_per_cell=(16, 16), cells_per_block=(1, 1), visualise=True)
+        fd, hog_img = hog(img, orientations=8, pixels_per_cell=(8, 8), cells_per_block=(1, 1), visualise=True)
         hog_img *= 255
         return np.resize(hog_img, -1)
 
@@ -79,7 +79,7 @@ def getDistance(feat1, feat2, algorithm='ssd'):
             dd = feat1[i] - feat2[i]
             ssd += dd * dd
         return ssd
-    
+
     return None
 
 def isTargetPattern(img, masksize = (48, 48)):
@@ -89,15 +89,14 @@ def isTargetPattern(img, masksize = (48, 48)):
     img = cv2.resize(img, dsize = (maskRows, maskCols), interpolation=cv2.INTER_CUBIC)
 
 if __name__ == "__main__":
-    positivePath = os.getcwd() + '/true'  
+    positivePath = os.getcwd() + '/true'
     negativePath = os.getcwd() + '/false'
 
     for file in os.listdir(imagepath):
         if not file.endswith('.JPG') :
             continue
-        
+
         img = cv2.imread(imagepath + '/' + file, cv2.IMREAD_COLOR)
-    
+
         feat = getFeat(img)
         print(feat)
-    

@@ -5,15 +5,21 @@ from train.codes.regionProposal import extractFeature
 from train.codes.brightChange import brightChange
 
 # Loads database images
-def loadDBFromPath(path, classnum, isFiltered=0):
+def loadDBFromPath(path, classnum, isFiltered=1):
     db = []
-    for file in os.listdir(path):
+    print('loading')
+    cnt = 0
+    li = os.listdir(path)
+    print(path, classnum)
+    for file in li:
+        print(str(cnt) + '/' + str(len(li)))
+        cnt += 1
         if not file.upper().endswith('.JPG'):
             continue
         data = {}
         data['class'] = classnum
         img = cv2.imread(path + '/' + file, cv2.IMREAD_COLOR)
-        resized = cv2.resize(img, (50, 50))
+        resized = cv2.resize(img, (500, 500))
         if isFiltered :
             data['feat'] = extractFeature(img)
         else :
