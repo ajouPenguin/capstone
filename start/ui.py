@@ -29,6 +29,7 @@ clf = train('./train/data')
 mainwindow_class = uic.loadUiType("title.ui")[0]
 quitbox_class = uic.loadUiType("quitbox.ui")[0]
 learningbox_class = uic.loadUiType("learningbox.ui")[0]
+pathbox_class = uic.loadUiType("pathbox.ui")[0]
 drone_label_count = 2   #드론라벨카운트 2부터 +1씩
 threshold = 80
 
