@@ -91,7 +91,7 @@ class DroneControl(QWidget):
 
         self.v = 0
 
-        self.default_task = [UP, UP, RIGHT, RIGHT, DOWN, LEFT, LEFT, DOWN, RIGHT, RIGHT, LEFT, LEFT, DONE]
+        self.default_task = [RIGHT, RIGHT, UP, UP, LEFT, LEFT, DOWN, RIGHT, RIGHT, DOWN, LEFT, LEFT, DONE]#[UP, UP, RIGHT, RIGHT, DOWN, LEFT, LEFT, DOWN, RIGHT, RIGHT, LEFT, LEFT, DONE]
         self.task = None
 
         self.timer = QBasicTimer()
@@ -151,6 +151,7 @@ class DroneControl(QWidget):
                     ec = (255, 255, 255)
                 lw = 1
                 cv2.rectangle(cimg, (x1, y1), (x2, y2), ec, lw)
+                print(self.detected)
 
         try:
             self.prevRects = [(x1, x2, y1, y2, cnt+1, pred) for (x1, x2, y1, y2, cnt, pred) in self.prevRects]
