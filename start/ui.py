@@ -73,6 +73,131 @@ class learningBox(QWidget, learningbox_class):
         self.learningBar.setValue(0)
         self.parent().btn_enable()
         self.close()
+        
+class DronePath(QWidget, pathbox_class):
+    def __init__(self, parent):
+        super(DronePath, self).__init__(parent)
+        self.setupUi(self)
+        self.setGeometry(450, 150, 341, 451)
+        self.initTable()
+        self.cur = 1
+        self.row = 3
+        self.height = 3
+        self.moves = []
+        self.text = ""
+
+    def initTable(self):
+        self.initTable2(self.section1)
+        item = QtWidgets.QTableWidgetItem()
+        item.setFlags(QtCore.Qt.ItemIsEditable)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/controlBtn/controlbtn/start.png"), QtGui.QIcon.Disabled, QtGui.QIcon.Off)
+        item.setIcon(icon)
+        self.section1.setItem(1, 1, item)
+        self.initTable2(self.section2)
+        self.initTable2(self.section3)
+        self.initTable2(self.section4)
+        self.initTable2(self.section5)
+        self.initTable2(self.section6)
+        self.initTable2(self.section7)
+        self.initTable2(self.section8)
+        self.initTable2(self.section9)
+    def initTable2(self, section):
+        i, j = 0, 0
+        width = section.width() / section.columnCount() - 1
+        height = section.height() / section.rowCount() - 1
+        while i < self.section1.columnCount():
+            section.setColumnWidth(i, width)
+            i += 1
+        while j < self.section1.rowCount():
+            section.setRowHeight(j, height)
+
+            j += 1
+        section.setIconSize(QtCore.QSize(23, 23))
+
+    def doUp(self):
+        next = self.cur + self.row
+        if((self.cur / self.row) <= (self.height - 1)):
+            section = self.getcurSection(self.cur)
+            self.setRec(section, 0, 1)
+            section = self.getcurSection(next)
+            self.setRec(section, 2, 1)
+            self.setTri(section, 1, 1)
+            self.cur = next
+            self.moves.append(UP)
+            self.text += "UP "
+            self.textEdit.setText(self.text)
+    def doDown(self):
+        next = self.cur - self.row
+        if((self.cur / self.row) > 1):
+            section = self.getcurSection(self.cur)
+            self.setRec(section, 2, 1)
+            section = self.getcurSection(next)
+            self.setRec(section, 0, 1)
+            self.setTri(section, 1, 1)
+            self.cur = next
+            self.moves.append(DOWN)
+            self.text += "DOWN "
+            self.textEdit.setText(self.text)
+    def doLeft(self):
+        next = self.cur - 1
+        if ((self.cur % self.row) != 1):
+            section = self.getcurSection(self.cur)
+            self.setRec(section, 1, 0)
+            section = self.getcurSection(next)
+            self.setRec(section, 1, 2)
+            self.setTri(section, 1, 1)
+            self.cur = next
+            self.moves.append(LEFT)
+            self.text += "LEFT "
+            self.textEdit.setText(self.text)
+    def doRight(self):
+        next = self.cur + 1
+        if ((self.cur % self.row) != 0):
+            section = self.getcurSection(self.cur)
+            self.setRec(section, 1, 2)
+            section = self.getcurSection(next)
+            self.setRec(section, 1, 0)
+            self.setTri(section, 1, 1)
+            self.cur = next
+            self.moves.append(RIGHT)
+            self.text += "RIGHT "
+            self.textEdit.setText(self.text)
+    def doRewind(self):
+        self.parent().drone_path()
+        self.close()
+
+    def doFinish(self):
+        self.parent().btn_enable()
+        self.moves.append('DONE')
+        test_moves = self.moves[:]
+        self.close()
+
+    def getcurSection(self, cur):
+        if(cur == 1): return self.section1
+        elif(cur == 2): return self.section2
+        elif(cur == 3): return self.section3
+        elif(cur == 4): return self.section4
+        elif(cur == 5): return self.section5
+        elif(cur == 6): return self.section6
+        elif(cur == 7): return self.section7
+        elif(cur == 8): return self.section8
+        elif(cur == 9): return self.section9
+
+    def setRec(self, section, x, y):
+        item = QtWidgets.QTableWidgetItem()
+        brush = QtGui.QBrush(QtGui.QColor(42, 122, 138))
+        brush.setStyle(QtCore.Qt.BDiagPattern)
+        item.setBackground(brush)
+        item.setFlags(QtCore.Qt.ItemIsEditable)
+        section.setItem(x, y, item)
+    def setTri(self, section, x, y):
+        item = QtWidgets.QTableWidgetItem()
+        brush = QtGui.QBrush(QtGui.QColor(42, 122, 138))
+        brush.setStyle(QtCore.Qt.BDiagPattern)
+        item.setBackground(brush)
+        item.setFlags(QtCore.Qt.ItemIsEditable)
+        section.setItem(x, y, item)
 
 class DroneControl(QWidget):
     def __init__(self, show):
@@ -297,6 +422,7 @@ class MainWindow(QMainWindow, mainwindow_class):
         self.learningbox = learningBox(self)
         self.learningbox.hide()
         self.quitbox.hide()
+        self.dronepath = None
         self.getGOODS() #제품목록 불러오기
         self.showBettery()
         self.paintTempmap()     #임시 맵 튜
@@ -309,7 +435,12 @@ class MainWindow(QMainWindow, mainwindow_class):
         self.tableWidget.raise_()
         self.tempMap.raise_()
         self.drone_locate(1, 0)
-
+        
+    def drone_path(self):
+        self.btn_disalbe()
+        self.dronepath = DronePath(self)
+        self.dronepath.show()
+        
     def showVideo(self, cvImage):
         qimg = QtGui.QImage(cvImage, cvImage.shape[1], cvImage.shape[0], cvImage.strides[0], QtGui.QImage.Format_RGB888)
         self.video_frame.setPixmap(QtGui.QPixmap.fromImage(qimg))
@@ -529,6 +660,7 @@ class MainWindow(QMainWindow, mainwindow_class):
         self.btn_learning.setEnabled(True)
         self.btn_drone_plus.setEnabled(True)
         self.btn_1st.setEnabled(True)
+        self.btn_path.setEnabled(True)
     def btn_disalbe(self):
         self.btn_turnoff.setEnabled(False)
         self.btn_start.setEnabled(False)
@@ -537,7 +669,8 @@ class MainWindow(QMainWindow, mainwindow_class):
         self.btn_learning.setEnabled(False)
         self.btn_drone_plus.setEnabled(False)
         self.btn_1st.setEnabled(False)
-
+        self.btn_path.setEnabled(Flase)
+        
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
