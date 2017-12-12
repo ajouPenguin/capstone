@@ -210,9 +210,6 @@ class DroneControl(QWidget):
                     if right != 0:
                         self.sections.addSection(current, right, [0,0,0,0])
                 sec, ret = self.sections.find('second', current)
-                if current == 3:
-                    print('2')
-                    print(sec, ret)
                 if (sec and ret) is not None:
                     f = sec.getFound()
                     for i in range(len(f)):
