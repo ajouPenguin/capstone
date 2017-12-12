@@ -53,6 +53,6 @@ def train(dataPath):
         # Start learning
         print('Start learning')
         clf.fit(trainset, classes)
-    #joblib.dump(clf, './train/output/dump.pkl')
+    joblib.dump(clf, './train/output/dump.pkl')
 
     return clf
