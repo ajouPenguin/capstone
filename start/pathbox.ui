@@ -1,0 +1,1381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>474</width>
+    <height>478</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(0, 0, 0);
+</string>
+  </property>
+  <widget class="QTableWidget" name="section5">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>110</y>
+     <width>85</width>
+     <height>85</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="showGrid">
+    <bool>true</bool>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/r.png</normaloff>:/frame/frame/r.png</iconset>
+    </property>
+   </item>
+   <item row="0" column="2">
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/l.png</normaloff>:/frame/frame/l.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/rd.png</normaloff>:/frame/frame/rd.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="2">
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/ld.png</normaloff>:/frame/frame/ld.png</iconset>
+    </property>
+   </item>
+  </widget>
+  <widget class="QTableWidget" name="section6">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>110</y>
+     <width>85</width>
+     <height>85</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="showGrid">
+    <bool>true</bool>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string>4</string>
+    </property>
+    <property name="textAlignment">
+     <set>AlignCenter</set>
+    </property>
+    <property name="foreground">
+     <brush brushstyle="SolidPattern">
+      <color alpha="255">
+       <red>255</red>
+       <green>255</green>
+       <blue>255</blue>
+      </color>
+     </brush>
+    </property>
+   </item>
+   <item row="0" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/r.png</normaloff>:/frame/frame/r.png</iconset>
+    </property>
+   </item>
+   <item row="1" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/r.png</normaloff>:/frame/frame/r.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/d.png</normaloff>:/frame/frame/d.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/rd.png</normaloff>:/frame/frame/rd.png</iconset>
+    </property>
+   </item>
+  </widget>
+  <widget class="QTableWidget" name="section3">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>190</y>
+     <width>85</width>
+     <height>85</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="textElideMode">
+    <enum>Qt::ElideNone</enum>
+   </property>
+   <property name="showGrid">
+    <bool>true</bool>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string>2</string>
+    </property>
+    <property name="textAlignment">
+     <set>AlignCenter</set>
+    </property>
+    <property name="foreground">
+     <brush brushstyle="SolidPattern">
+      <color alpha="255">
+       <red>255</red>
+       <green>255</green>
+       <blue>255</blue>
+      </color>
+     </brush>
+    </property>
+   </item>
+   <item row="0" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/r.png</normaloff>:/frame/frame/r.png</iconset>
+    </property>
+   </item>
+   <item row="1" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/r.png</normaloff>:/frame/frame/r.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/d.png</normaloff>:/frame/frame/d.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="1">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/d.png</normaloff>:/frame/frame/d.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/rd.png</normaloff>:/frame/frame/rd.png</iconset>
+    </property>
+   </item>
+  </widget>
+  <widget class="QTableWidget" name="section4">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>110</y>
+     <width>85</width>
+     <height>85</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="showGrid">
+    <bool>true</bool>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/l.png</normaloff>:/frame/frame/l.png</iconset>
+    </property>
+   </item>
+   <item row="0" column="2">
+    <property name="text">
+     <string>3</string>
+    </property>
+    <property name="textAlignment">
+     <set>AlignCenter</set>
+    </property>
+    <property name="foreground">
+     <brush brushstyle="SolidPattern">
+      <color alpha="255">
+       <red>255</red>
+       <green>255</green>
+       <blue>255</blue>
+      </color>
+     </brush>
+    </property>
+   </item>
+   <item row="1" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/l.png</normaloff>:/frame/frame/l.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/ld.png</normaloff>:/frame/frame/ld.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/d.png</normaloff>:/frame/frame/d.png</iconset>
+    </property>
+   </item>
+  </widget>
+  <widget class="QTableWidget" name="section2">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>190</y>
+     <width>85</width>
+     <height>85</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="showGrid">
+    <bool>true</bool>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/r.png</normaloff>:/frame/frame/r.png</iconset>
+    </property>
+   </item>
+   <item row="0" column="2">
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/l.png</normaloff>:/frame/frame/l.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/rd.png</normaloff>:/frame/frame/rd.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="1">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/d.png</normaloff>:/frame/frame/d.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/ld.png</normaloff>:/frame/frame/ld.png</iconset>
+    </property>
+   </item>
+  </widget>
+  <widget class="QTableWidget" name="section1">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>190</y>
+     <width>85</width>
+     <height>85</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="showGrid">
+    <bool>true</bool>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="foreground">
+     <brush brushstyle="SolidPattern">
+      <color alpha="255">
+       <red>255</red>
+       <green>255</green>
+       <blue>255</blue>
+      </color>
+     </brush>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/l.png</normaloff>:/frame/frame/l.png</iconset>
+    </property>
+   </item>
+   <item row="0" column="2">
+    <property name="text">
+     <string>1</string>
+    </property>
+    <property name="textAlignment">
+     <set>AlignCenter</set>
+    </property>
+    <property name="background">
+     <brush brushstyle="SolidPattern">
+      <color alpha="255">
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
+     </brush>
+    </property>
+    <property name="foreground">
+     <brush brushstyle="NoBrush">
+      <color alpha="255">
+       <red>255</red>
+       <green>255</green>
+       <blue>255</blue>
+      </color>
+     </brush>
+    </property>
+   </item>
+   <item row="1" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/l.png</normaloff>:/frame/frame/l.png</iconset>
+    </property>
+   </item>
+   <item row="1" column="1">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="textAlignment">
+     <set>AlignJustify|AlignVCenter</set>
+    </property>
+    <property name="foreground">
+     <brush brushstyle="NoBrush">
+      <color alpha="255">
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
+     </brush>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/ld.png</normaloff>:/frame/frame/ld.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="1">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/d.png</normaloff>:/frame/frame/d.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/d.png</normaloff>:/frame/frame/d.png</iconset>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="background">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>-30</y>
+     <width>341</width>
+     <height>491</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="icon/drone.qrc">:/background/frame.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_up">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>340</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icon/drone.qrc">
+     <normaloff>:/controlBtn/controlbtn/up.png</normaloff>:/controlBtn/controlbtn/up.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_right">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>370</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icon/drone.qrc">
+     <normaloff>:/controlBtn/controlbtn/right.png</normaloff>:/controlBtn/controlbtn/right.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_left">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>370</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton { border-image: url(c:/Data/navArrowsSelected.png); } QPushButton : focus { border-image: url(c:/icons/button-hover.png); }</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icon/drone.qrc">
+     <normaloff>:/controlBtn/controlbtn/left.png</normaloff>:/controlBtn/controlbtn/left.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_down">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>370</y>
+     <width>41</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icon/drone.qrc">
+     <normaloff>:/controlBtn/controlbtn/down.png</normaloff>:/controlBtn/controlbtn/down.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>40</width>
+     <height>40</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_finish">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>350</y>
+     <width>51</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icon/drone.qrc">
+     <normaloff>:/controlBtn/controlbtn/finish.png</normaloff>:/controlBtn/controlbtn/finish.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>45</width>
+     <height>45</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="section7">
+   <property name="geometry">
+    <rect>
+     <x>38</x>
+     <y>28</y>
+     <width>85</width>
+     <height>85</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="showGrid">
+    <bool>true</bool>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/lu.png</normaloff>:/frame/frame/lu.png</iconset>
+    </property>
+   </item>
+   <item row="0" column="1">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/u.png</normaloff>:/frame/frame/u.png</iconset>
+    </property>
+   </item>
+   <item row="0" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/u.png</normaloff>:/frame/frame/u.png</iconset>
+    </property>
+   </item>
+   <item row="1" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/l.png</normaloff>:/frame/frame/l.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/ld.png</normaloff>:/frame/frame/ld.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="2">
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/d.png</normaloff>:/frame/frame/d.png</iconset>
+    </property>
+   </item>
+  </widget>
+  <widget class="QTableWidget" name="section8">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>30</y>
+     <width>85</width>
+     <height>85</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="showGrid">
+    <bool>true</bool>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/ru.png</normaloff>:/frame/frame/ru.png</iconset>
+    </property>
+   </item>
+   <item row="0" column="1">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/u.png</normaloff>:/frame/frame/u.png</iconset>
+    </property>
+   </item>
+   <item row="0" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/lu.png</normaloff>:/frame/frame/lu.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/rd.png</normaloff>:/frame/frame/rd.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/ld.png</normaloff>:/frame/frame/ld.png</iconset>
+    </property>
+   </item>
+  </widget>
+  <widget class="QTableWidget" name="section9">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>30</y>
+     <width>85</width>
+     <height>85</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::NoSelection</enum>
+   </property>
+   <property name="showGrid">
+    <bool>true</bool>
+   </property>
+   <attribute name="horizontalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>New Row</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>New Column</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string>6</string>
+    </property>
+    <property name="textAlignment">
+     <set>AlignCenter</set>
+    </property>
+    <property name="background">
+     <brush brushstyle="NoBrush">
+      <color alpha="255">
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
+     </brush>
+    </property>
+    <property name="foreground">
+     <brush brushstyle="SolidPattern">
+      <color alpha="255">
+       <red>255</red>
+       <green>255</green>
+       <blue>255</blue>
+      </color>
+     </brush>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/u.png</normaloff>:/frame/frame/u.png</iconset>
+    </property>
+   </item>
+   <item row="0" column="1">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/u.png</normaloff>:/frame/frame/u.png</iconset>
+    </property>
+   </item>
+   <item row="0" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/ru.png</normaloff>:/frame/frame/ru.png</iconset>
+    </property>
+   </item>
+   <item row="1" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/r.png</normaloff>:/frame/frame/r.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/d.png</normaloff>:/frame/frame/d.png</iconset>
+    </property>
+   </item>
+   <item row="2" column="2">
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/drone.qrc">
+      <normaloff>:/frame/frame/rd.png</normaloff>:/frame/frame/rd.png</iconset>
+    </property>
+   </item>
+  </widget>
+  <widget class="QTextEdit" name="textEdit">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>290</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color : rgb(78, 182, 255);</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="undoRedoEnabled">
+    <bool>false</bool>
+   </property>
+   <property name="acceptRichText">
+    <bool>false</bool>
+   </property>
+   <property name="textInteractionFlags">
+    <set>Qt::NoTextInteraction</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_rewind">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>350</y>
+     <width>51</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icon/drone.qrc">
+     <normaloff>:/controlBtn/controlbtn/rewind.png</normaloff>:/controlBtn/controlbtn/rewind.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>45</width>
+     <height>45</height>
+    </size>
+   </property>
+  </widget>
+  <zorder>background</zorder>
+  <zorder>btn_up</zorder>
+  <zorder>btn_right</zorder>
+  <zorder>btn_left</zorder>
+  <zorder>btn_down</zorder>
+  <zorder>btn_finish</zorder>
+  <zorder>section7</zorder>
+  <zorder>section8</zorder>
+  <zorder>section9</zorder>
+  <zorder>section4</zorder>
+  <zorder>section5</zorder>
+  <zorder>section6</zorder>
+  <zorder>section1</zorder>
+  <zorder>section2</zorder>
+  <zorder>section3</zorder>
+  <zorder>textEdit</zorder>
+  <zorder>btn_rewind</zorder>
+ </widget>
+ <resources>
+  <include location="icon/drone.qrc"/>
+  <include location="../../.designer/backup/icon/drone.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>btn_up</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>doUp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>105</x>
+     <y>317</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>401</x>
+     <y>297</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_down</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>doDown()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>90</x>
+     <y>346</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>95</x>
+     <y>441</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_left</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>doLeft()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>356</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>36</x>
+     <y>425</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_finish</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>doFinish()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>266</x>
+     <y>350</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>375</x>
+     <y>377</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_right</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>doRight()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>338</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>191</x>
+     <y>417</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_rewind</sender>
+   <signal>clicked()</signal>
+   <receiver>Form</receiver>
+   <slot>doRewind()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>227</x>
+     <y>384</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>388</x>
+     <y>443</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>doUp()</slot>
+  <slot>doDown()</slot>
+  <slot>doLeft()</slot>
+  <slot>doRight()</slot>
+  <slot>doRewind()</slot>
+  <slot>doFinish()</slot>
+ </slots>
+</ui>

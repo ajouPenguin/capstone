@@ -74,7 +74,7 @@ class learningBox(QWidget, learningbox_class):
         self.learningBar.setValue(0)
         self.parent().btn_enable()
         self.close()
-        
+
 class DronePath(QWidget, pathbox_class):
     def __init__(self, parent):
         super(DronePath, self).__init__(parent)
@@ -170,8 +170,8 @@ class DronePath(QWidget, pathbox_class):
 
     def doFinish(self):
         self.parent().btn_enable()
-        self.moves.append('DONE')
-        test_moves = self.moves[:]
+        self.moves.append(DONE)
+        self.parent().test_moves = self.moves[:]
         self.close()
 
     def getcurSection(self, cur):
@@ -201,9 +201,8 @@ class DronePath(QWidget, pathbox_class):
         section.setItem(x, y, item)
 
 class DroneControl(QWidget):
-    def __init__(self, show):
+    def __init__(self, show, di):
         super().__init__()
-
         self.showFunc = show
         self.outputVideo = cv2.VideoWriter('./train/output/output.avi', cv2.VideoWriter_fourcc(*'MJPG'), 30.0, (512, 512))
         self.interface = None
@@ -214,13 +213,13 @@ class DroneControl(QWidget):
         self.prevRects = []
         self.prevDirection = 0
         self.detected = [0, 0, 0, 0]
-
         self.v = 0
-
-        self.default_task = [RIGHT, RIGHT, UP, UP, LEFT, LEFT, DOWN, RIGHT, RIGHT, DOWN, LEFT, LEFT, DONE]#[UP, UP, RIGHT, RIGHT, DOWN, LEFT, LEFT, DOWN, RIGHT, RIGHT, LEFT, LEFT, DONE]
+        self.default_task = di
         self.task = None
-
         self.timer = QBasicTimer()
+
+    def pathChange(self, di):
+        self.default_task = di
 
     def timerEvent(self, e):
         img = self.interface.get_image_from_camera()
@@ -277,7 +276,6 @@ class DroneControl(QWidget):
                     ec = (255, 255, 255)
                 lw = 1
                 cv2.rectangle(cimg, (x1, y1), (x2, y2), ec, lw)
-                print(self.detected)
 
         try:
             self.prevRects = [(x1, x2, y1, y2, cnt+1, pred) for (x1, x2, y1, y2, cnt, pred) in self.prevRects]
@@ -387,7 +385,7 @@ class DroneControl(QWidget):
 #section 설정 코드 끝
 
     def initDrone(self):
-        self.task = self.default_task[:]
+        self.task = self.default_task
 
         self.interface = RobotInterface()
         self.qrfinder = QrFinder()
@@ -424,27 +422,28 @@ class MainWindow(QMainWindow, mainwindow_class):
         self.dronepath = None
         self.getGOODS() #제품목록 불러오기
         self.showBettery()
-        self.paintTempmap()     #임시 맵 튜
         self.btn_stop.setEnabled(False)
-
-        self.dc = DroneControl(self.showVideo)
+        self.test_moves = [UP, UP, RIGHT, RIGHT, DOWN, LEFT, LEFT, DOWN, RIGHT, RIGHT, LEFT, LEFT, DONE]
+        self.dc = DroneControl(self.showVideo, self.test_moves)
+        self.paintTempmap()     #임시 맵 튜
 
     def temp(self):
         self.setBatteryGuage(70)
         self.tableWidget.raise_()
         self.tempMap.raise_()
         self.drone_locate(1, 0)
-        
+
     def drone_path(self):
         self.btn_disalbe()
         self.dronepath = DronePath(self)
         self.dronepath.show()
-        
+
     def showVideo(self, cvImage):
         qimg = QtGui.QImage(cvImage, cvImage.shape[1], cvImage.shape[0], cvImage.strides[0], QtGui.QImage.Format_RGB888)
         self.video_frame.setPixmap(QtGui.QPixmap.fromImage(qimg))
 
     def start_drone(self):
+        self.dc.pathChange(self.test_moves)
         if self.dc.isRunning():
             icon = QtGui.QIcon()
             icon.addPixmap(QtGui.QPixmap(":/button/run.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -476,10 +475,10 @@ class MainWindow(QMainWindow, mainwindow_class):
     #공장 맵 그리기
     def paintTempmap(self):
         x, y = 1, 1
-        test_moves = ['R', 'R', 'R', 'U', 'L', 'L', 'L', 'U', 'R', 'R', 'R', 'N', 'L', 'L', 'L', 'F']
+        tm = self.test_moves
 
         #드론 움직임에따른 테이블 그리드 생성
-        for direction in test_moves:
+        for direction in tm:
             x, y = self.getDroneMoving(x, y, direction)
 
         #마지막 공백주기
@@ -668,8 +667,8 @@ class MainWindow(QMainWindow, mainwindow_class):
         self.btn_learning.setEnabled(False)
         self.btn_drone_plus.setEnabled(False)
         self.btn_1st.setEnabled(False)
-        self.btn_path.setEnabled(Flase)
-        
+        self.btn_path.setEnabled(False)
+
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
@@ -677,4 +676,4 @@ if __name__ == "__main__":
     mWindow.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
     mWindow.setFixedSize(1348, 864)
     mWindow.show()
-    app.exec_()
+app.exec_()

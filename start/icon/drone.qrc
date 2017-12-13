@@ -4,6 +4,31 @@
     <file>logo.png</file>
     <file>drone.png</file>
   </qresource>
+  <qresource prefix="frame">
+    <file>frame/rd.png</file>
+    <file>frame/d.png</file>
+    <file>frame/r.png</file>
+    <file>frame/l.png</file>
+    <file>frame/u.png</file>
+    <file>frame/ld.png</file>
+    <file>frame/lu.png</file>
+    <file>frame/ru.png</file>
+  </qresource>
+  <qresource prefix="controlBtn">
+    <file>controlbtn/start.png</file>
+    <file>controlbtn/finish.png</file>
+    <file>controlbtn/finish2.png</file>
+    <file>controlbtn/rewind.png</file>
+    <file>controlbtn/rewind2.png</file>
+    <file>controlbtn/down.png</file>
+    <file>controlbtn/down2.png</file>
+    <file>controlbtn/left.png</file>
+    <file>controlbtn/left2.png</file>
+    <file>controlbtn/right.png</file>
+    <file>controlbtn/right2.png</file>
+    <file>controlbtn/up.png</file>
+    <file>controlbtn/up2.png</file>
+  </qresource>
   <qresource prefix="background">
     <file>frame.png</file>
     <file>bgImg.png</file>
@@ -16,6 +41,8 @@
     <file>drone_label.png</file>
   </qresource>
   <qresource prefix="button">
+    <file>경로선택.png</file>
+    <file>경로선택2.png</file>
     <file>pause.png</file>
     <file>pause2.png</file>
     <file>1st.png</file>
