@@ -447,7 +447,6 @@ class MainWindow(QMainWindow, mainwindow_class):
 
     def temp(self):
         self.setBatteryGuage(70)
-        self.tableWidget.raise_()
         self.tempMap.raise_()
         self.drone_locate(1, 0)
 
@@ -462,6 +461,7 @@ class MainWindow(QMainWindow, mainwindow_class):
 
     def start_drone(self):
         self.dc.pathChange(self.test_moves)
+        self.tableWidget.raise_()
         if self.dc.isRunning():
             icon = QtGui.QIcon()
             icon.addPixmap(QtGui.QPixmap(":/button/run.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
