@@ -674,18 +674,14 @@ class MainWindow(QMainWindow, mainwindow_class):
     def btn_enable(self):
         self.btn_turnoff.setEnabled(True)
         self.btn_start.setEnabled(True)
-        self.btn_setting.setEnabled(True)
         self.btn_learning.setEnabled(True)
         self.btn_drone_plus.setEnabled(True)
-        self.btn_1st.setEnabled(True)
         self.btn_path.setEnabled(True)
     def btn_disalbe(self):
         self.btn_turnoff.setEnabled(False)
         self.btn_start.setEnabled(False)
-        self.btn_setting.setEnabled(False)
         self.btn_learning.setEnabled(False)
         self.btn_drone_plus.setEnabled(False)
-        self.btn_1st.setEnabled(False)
         self.btn_path.setEnabled(False)
 
 if __name__ == "__main__":
