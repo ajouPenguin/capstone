@@ -17,6 +17,12 @@ def train(dataPath):
     try:
         clf = joblib.load('./train/output/dump.pkl')
         print('Using trained model')
+        fileList = os.listdir(dataPath)
+        for f in fileList:
+            pa = os.path.join(dataPath, f)
+            if not os.path.isdir(pa):
+                continue
+            labels.append(f)
     except:
 
         try:
@@ -55,4 +61,4 @@ def train(dataPath):
         clf.fit(trainset, classes)
     joblib.dump(clf, './train/output/dump.pkl')
 
-    return clf
+    return clf, labels

@@ -24,7 +24,7 @@ LEFT = 97
 RIGHT = 100
 DONE = 27
 outputColor = [(0, 0 , 255), (0, 255, 0), (255, 0, 0), (255, 255, 0), (255, 0, 255), (0, 255, 255)]
-clf = train('./train/data')
+clf, labels = train('./train/data')
 
 mainwindow_class = uic.loadUiType("title.ui")[0]
 quitbox_class = uic.loadUiType("quitbox.ui")[0]
@@ -201,9 +201,9 @@ class DronePath(QWidget, pathbox_class):
         section.setItem(x, y, item)
 
 class DroneControl(QWidget):
-    def __init__(self, show, di):
-        super().__init__()
-        self.showFunc = show
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.showFunc = self.parent().showVideo
         self.outputVideo = cv2.VideoWriter('./train/output/output.avi', cv2.VideoWriter_fourcc(*'MJPG'), 30.0, (512, 512))
         self.interface = None
         self.qrfinder = None
@@ -214,7 +214,7 @@ class DroneControl(QWidget):
         self.prevDirection = 0
         self.detected = [0, 0, 0, 0]
         self.v = 0
-        self.default_task = di
+        self.default_task = self.parent().test_moves
         self.task = None
         self.timer = QBasicTimer()
 
@@ -322,9 +322,8 @@ class DroneControl(QWidget):
             self.qr_target = left
             self.direction = 4
         elif ch == DONE:
-            for i in self.sections.li:
-                print(i.getPoints())
-                print(i.getFound())
+            self.parent().showitems(self.sections.li)
+            self.parent().btn_stop.setEnabled(False)
             self.stop()
 
 # section 설정을 통한 겹치는 barcode label 정리
@@ -424,8 +423,27 @@ class MainWindow(QMainWindow, mainwindow_class):
         self.showBettery()
         self.btn_stop.setEnabled(False)
         self.test_moves = [UP, UP, RIGHT, RIGHT, DOWN, LEFT, LEFT, DOWN, RIGHT, RIGHT, LEFT, LEFT, DONE]
-        self.dc = DroneControl(self.showVideo, self.test_moves)
+        self.dc = DroneControl(self)
         self.paintTempmap()     #임시 맵 튜
+
+    def showitems(self, sec):
+        print(sec)
+
+        sumOfItems = [0, 0, 0, 0]
+        idx = 0
+        for i in sec:
+            p = i.getPoints()
+            f = i.getFound()
+            print('In section between', p['first'], ' and ', p['second'])
+            for j in range(len(f)):
+                if j != 0:
+                    print(labels[j],' : ', f[j])
+                    sumOfItems[j] += f[j]
+            idx += 1
+        send = []
+        for i in range(len(labels)):
+            send.append([labels[i], sumOfItems[i]])
+        self.setCount_goods(send)
 
     def temp(self):
         self.setBatteryGuage(70)
@@ -536,31 +554,34 @@ class MainWindow(QMainWindow, mainwindow_class):
         self.tempMap.setItem(t, x, item)
 
     #비젼으로 제품 파악 후, 제품이름에 따른 갯수 화면에 표시 --> 인풋값 '제품명' '갯수'
-    def setCount_goods(self, itemName, number):
-        number = '\t' + str(number)
+    def setCount_goods(self, items):
         i = 0
         while i < self.tableWidget.rowCount():
             temp = self.tableWidget.item(i, 0)
-            if(temp.text() == itemName):
-                item = QtWidgets.QTableWidgetItem()
-                item.setText(number)
-                font = QtGui.QFont()
-                font.setBold(True)
-                font.setWeight(75)
-                item.setFont(font)
-                item.setFlags(QtCore.Qt.ItemIsEditable)
-                brush = QtGui.QBrush(QtGui.QColor(78, 182, 255))
-                brush.setStyle(QtCore.Qt.NoBrush)
-                item.setForeground(brush)
-                self.tableWidget.setItem(temp.row(), 1, item)
-                break
-            i = i+1
+            for it in items:
+                if(temp.text() == it[0]):
+                    print(it[1])
+                    num = '\t' + str(it[1])
+                    item = QtWidgets.QTableWidgetItem()
+                    item.setText(num)
+                    font = QtGui.QFont()
+                    font.setBold(True)
+                    font.setWeight(75)
+                    item.setFont(font)
+                    item.setFlags(QtCore.Qt.ItemIsEditable)
+                    brush = QtGui.QBrush(QtGui.QColor(78, 182, 255))
+                    brush.setStyle(QtCore.Qt.NoBrush)
+                    item.setForeground(brush)
+                    self.tableWidget.setItem(temp.row(), 1, item)
+                    break
+            i += 1
 
     #제품목록 불러오기
     def getGOODS(self):
         i = 0
         self.tableWidget.clear()
-        for dirName in os.listdir("./goods"):
+        for dirName in labels:
+            if(dirName == "QR"): continue
             if(i > 0):
                 self.tableWidget.insertRow(i)
             #제품명 등록
@@ -653,7 +674,6 @@ class MainWindow(QMainWindow, mainwindow_class):
     def btn_enable(self):
         self.btn_turnoff.setEnabled(True)
         self.btn_start.setEnabled(True)
-        self.btn_stop.setEnabled(True)
         self.btn_setting.setEnabled(True)
         self.btn_learning.setEnabled(True)
         self.btn_drone_plus.setEnabled(True)
@@ -662,7 +682,6 @@ class MainWindow(QMainWindow, mainwindow_class):
     def btn_disalbe(self):
         self.btn_turnoff.setEnabled(False)
         self.btn_start.setEnabled(False)
-        self.btn_stop.setEnabled(False)
         self.btn_setting.setEnabled(False)
         self.btn_learning.setEnabled(False)
         self.btn_drone_plus.setEnabled(False)
